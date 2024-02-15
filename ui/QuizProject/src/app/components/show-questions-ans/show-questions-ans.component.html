@@ -1,0 +1,11 @@
+<div>
+    <p>Total Correct Answers: {{ getCorrectAnswerCount() }} out of 10</p>
+  </div>
+<div *ngFor="let answer of viewAnswers;index as i">
+    <h3>Question {{i + 1}}: {{ answer.questionText }}</h3>
+    <p>Your Answer: {{ answer.userAnswer }}</p>
+    <p>Original Answer: {{ answer.originalAnswer }}</p>
+    <p [ngClass]="{'correct-answer': answer.isCorrect, 'incorrect-answer': !answer.isCorrect}">
+        {{ answer.isCorrect ? 'Correct' : 'Incorrect' }}
+    </p>
+</div>

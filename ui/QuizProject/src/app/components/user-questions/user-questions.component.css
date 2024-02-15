@@ -1,0 +1,11 @@
+.questionNumbers span{
+    border-radius: 100%;
+    border: 1px solid black;
+    color: white;
+} 
+.not-answered{
+    background-color: red;
+}
+.answered{
+    background-color: green;
+}

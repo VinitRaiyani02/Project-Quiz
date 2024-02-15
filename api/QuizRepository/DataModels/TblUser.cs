@@ -5,6 +5,11 @@ namespace QuizRepository.DataModels
 {
     public partial class TblUser
     {
+        public TblUser()
+        {
+            TblUserQuestionAns = new HashSet<TblUserQuestionAn>();
+        }
+
         public int Id { get; set; }
         public string? UserName { get; set; }
         public string Email { get; set; } = null!;
@@ -17,5 +22,6 @@ namespace QuizRepository.DataModels
 
         public virtual TblLanguage Language { get; set; } = null!;
         public virtual TblRole Role { get; set; } = null!;
+        public virtual ICollection<TblUserQuestionAn> TblUserQuestionAns { get; set; }
     }
 }

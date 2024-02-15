@@ -1,0 +1,25 @@
+<div>
+    <button mat-stroked-button color="primary" [routerLink]="['addQuestion']" [queryParams]="{ id: 0 }">Add</button>
+</div>
+<table class="container mt-3" style="width:100%;">
+    <thead>
+        <tr>
+            <th>Question Text</th>
+            <th>Question Type</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let ques of questionlist.list;index as i">
+            <td>{{ques.questionText}}</td>
+            <td>{{ques.questionType}}</td>
+            <td><button mat-stroked-button color="primary" [routerLink]="['addQuestion']" [queryParams]="{ id: ques.id}">Edit</button></td>
+            <td><button mat-stroked-button color="primary" (click)="DeleteQuestion(ques.id)">Delete</button></td>
+        </tr>
+    </tbody>
+</table>
+<div style="border: 1px black solid;">
+    <app-pagination [TotalCount]="questionlist.totalCount" (page)="handlePageChange($event)"></app-pagination>
+</div>
+

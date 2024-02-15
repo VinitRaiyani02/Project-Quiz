@@ -1,0 +1,6 @@
+<div class="form-outline" [formGroup]="parentForm">
+    <label class="form-label">{{props.Label}}</label>
+    <select class="form-select form-control form-control-lg" [formControl]="control">
+        <option *ngFor="let option of props.SelectOptions" [value]="option.value">{{option.text}}</option>
+    </select>
+</div>

@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+.form-submitted{
+    display: none;
+}
+.ng-submitted input.ng-invalid {
+    border: red 1px solid;
+  }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

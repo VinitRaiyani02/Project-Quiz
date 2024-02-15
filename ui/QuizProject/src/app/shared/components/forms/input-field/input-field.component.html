@@ -1,0 +1,30 @@
+<div class="form-outline" [formGroup]="parentForm">
+    <label class="form-label">{{props.Label}}<em>*</em></label>
+    <input type="{{props.Type}}" class="form-control form-control-lg input-valid-border"
+        [placeholder]="props.PlaceHolder" [formControl]="control" />
+</div>
+
+
+<ul class="text-danger error-ul form-submitted">
+    <li
+        *ngIf="props.FormGroupName && parentForm.get(props.FormGroupName)?.get(props.ControlName)?.errors?.['required']">
+        {{props.Label}} is required</li>
+    <li *ngIf="!props.FormGroupName && parentForm.get(props.ControlName)?.errors?.['required']">{{props.Label}} is
+        required</li>
+
+    <li
+        *ngIf="props.FormGroupName && props.ControlName == 'password' && parentForm.get(props.FormGroupName)?.get(props.ControlName)?.errors?.['pattern']">
+        {{props.Label}} should contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and be at least 8
+        characters long.
+    </li>
+    <li
+        *ngIf="!props.FormGroupName && props.ControlName == 'password' && parentForm.get(props.ControlName)?.errors?.['pattern']">
+        {{props.Label}} should contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, and be at least 8
+        characters long.
+    </li>
+
+    <li *ngIf="!props.FormGroupName && parentForm.get(props.ControlName)?.errors?.['email']">Please provide a valid
+        email address</li>
+    <li *ngIf="props.FormGroupName && parentForm.get(props.FormGroupName)?.get(props.ControlName)?.errors?.['email']">
+        Please provide a valid email address</li>
+</ul>

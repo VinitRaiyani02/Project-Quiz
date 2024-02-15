@@ -1,0 +1,7 @@
+<mat-paginator style="background: cornsilk;" 
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    [length]="TotalCount" 
+    [pageSize]="10" 
+    aria-label="Select page" 
+    (page)="handlePageChange($event)">
+</mat-paginator>

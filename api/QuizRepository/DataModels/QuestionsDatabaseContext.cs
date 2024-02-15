@@ -17,8 +17,11 @@ namespace QuizRepository.DataModels
         }
 
         public virtual DbSet<TblLanguage> TblLanguages { get; set; } = null!;
+        public virtual DbSet<TblQuestion> TblQuestions { get; set; } = null!;
+        public virtual DbSet<TblQuestionOption> TblQuestionOptions { get; set; } = null!;
         public virtual DbSet<TblRole> TblRoles { get; set; } = null!;
         public virtual DbSet<TblUser> TblUsers { get; set; } = null!;
+        public virtual DbSet<TblUserQuestionAn> TblUserQuestionAns { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,6 +41,28 @@ namespace QuizRepository.DataModels
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.Text).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<TblQuestion>(entity =>
+            {
+                entity.ToTable("tblQuestions");
+
+                entity.Property(e => e.QuestionAns).HasMaxLength(250);
+
+                entity.Property(e => e.Type).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<TblQuestionOption>(entity =>
+            {
+                entity.ToTable("tblQuestionOptions");
+
+                entity.Property(e => e.OptionText).HasMaxLength(250);
+
+                entity.HasOne(d => d.Question)
+                    .WithMany(p => p.TblQuestionOptions)
+                    .HasForeignKey(d => d.QuestionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tblQuestionOptions_tblQuestions");
             });
 
             modelBuilder.Entity<TblRole>(entity =>
@@ -74,6 +99,25 @@ namespace QuizRepository.DataModels
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblUser_tblRole");
+            });
+
+            modelBuilder.Entity<TblUserQuestionAn>(entity =>
+            {
+                entity.ToTable("tblUserQuestionAns");
+
+                entity.Property(e => e.QuestionAns).HasMaxLength(250);
+
+                entity.HasOne(d => d.Question)
+                    .WithMany(p => p.TblUserQuestionAns)
+                    .HasForeignKey(d => d.QuestionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__tblUserQu__Quest__4CA06362");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.TblUserQuestionAns)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__tblUserQu__UserI__4BAC3F29");
             });
 
             OnModelCreatingPartial(modelBuilder);
