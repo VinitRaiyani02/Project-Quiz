@@ -84,6 +84,8 @@ namespace QuizRepository.DataModels
 
                 entity.Property(e => e.Gender).HasMaxLength(50);
 
+                entity.Property(e => e.ImagePath).HasMaxLength(250);
+
                 entity.Property(e => e.Password).HasMaxLength(150);
 
                 entity.Property(e => e.UserName).HasMaxLength(150);

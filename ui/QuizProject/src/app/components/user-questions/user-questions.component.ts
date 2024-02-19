@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -15,7 +16,7 @@ import { QuestionService } from 'src/app/services/question.service';
 export class UserQuestionsComponent implements OnInit {
 
   constructor(private questionService: QuestionService,private baseServce: BaseService<QuestionListModel,QuestionAnsSummary>,
-    private router: Router,private _snackbar: MatSnackBar){
+    private router: Router,private _snackbar: MatSnackBar,private newBaseService: BaseService<QuestionsModel,QuestionListModel>){
     
   }
   questionList: QuestionListModel = {
@@ -24,7 +25,10 @@ export class UserQuestionsComponent implements OnInit {
   index: number = 0;
   notAllQuestionsAnswered: boolean = false;
   ngOnInit(): void {
-    this.questionService.GetList().subscribe({
+    const params = new HttpParams()
+    .set("currentPage",0)
+    .set("pageSize",10);
+    this.newBaseService.GetList("/Questions",params).subscribe({
       next: (res) => {
         console.log(res.data);
         if(res.data != undefined){

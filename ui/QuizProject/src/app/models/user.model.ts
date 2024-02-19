@@ -10,4 +10,6 @@ export interface UserModel {
     password: string;
     createdOn?: Date;
     isDeleted: boolean;
+    userImgPath?: string;
+    userImage?: File;
 }

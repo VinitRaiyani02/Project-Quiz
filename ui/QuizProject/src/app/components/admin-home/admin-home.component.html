@@ -1,25 +1,28 @@
-<div>
-    <button mat-stroked-button color="primary" [routerLink]="['addQuestion']" [queryParams]="{ id: 0 }">Add</button>
+<div class="py-3 px-4 d-flex justify-content-end" style="border-bottom: 1px solid #cdc6c6;background-color: ghostwhite;">
+    <button mat-stroked-button color="primary" [routerLink]="['addQuestion']" [queryParams]="{ id: 0 }">Add Question</button>
 </div>
-<table class="container mt-3" style="width:100%;">
-    <thead>
-        <tr>
-            <th>Question Text</th>
-            <th>Question Type</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let ques of questionlist.list;index as i">
-            <td>{{ques.questionText}}</td>
-            <td>{{ques.questionType}}</td>
-            <td><button mat-stroked-button color="primary" [routerLink]="['addQuestion']" [queryParams]="{ id: ques.id}">Edit</button></td>
-            <td><button mat-stroked-button color="primary" (click)="DeleteQuestion(ques.id)">Delete</button></td>
-        </tr>
-    </tbody>
-</table>
-<div style="border: 1px black solid;">
-    <app-pagination [TotalCount]="questionlist.totalCount" (page)="handlePageChange($event)"></app-pagination>
+<div class="container mt-4">
+    <table class="mt-3" style="width:100%;">
+        <thead>
+            <tr>
+                <th>Question Text</th>
+                <th>Question Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ques of questionlist.list;index as i">
+                <td>{{ques.questionText}}</td>
+                <td>{{ques.questionType}}</td>
+                <td class="d-flex justify-content-end"><button mat-stroked-button color="primary" class="mx-2" [routerLink]="['addQuestion']" [queryParams]="{ id: ques.id}">Edit</button>
+                    <button mat-stroked-button color="primary" class="mx-2"  (click)="DeleteQuestion(ques.id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="mt-4">
+        <app-pagination [TotalCount]="questionlist.totalCount" (page)="handlePageChange($event)"></app-pagination>
+    </div>
 </div>
-
+    
+    

@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -12,18 +13,23 @@ import { QuestionService } from 'src/app/services/question.service';
   styleUrls: ['./admin-home.component.css']
 })
 export class AdminHomeComponent implements OnInit {
-  constructor(private questionService: QuestionService,private router: Router,private baseService: BaseService<QuestionsModel,QuestionsModel>,
+  constructor(private questionService: QuestionService,private router: Router,private baseService: BaseService<QuestionsModel,QuestionListModel>,
     private _snackbar: MatSnackBar){
 
   }
   questionlist: QuestionListModel = {
     totalCount: 0
   };
+  currentPage: number = 0;
+  pageSize: number = 10;
   ngOnInit(): void {
     this.GetList();
   }
   GetList(){
-    this.questionService.GetList().subscribe({
+    const params = new HttpParams()
+    .set("currentPage",this.currentPage)
+    .set("pageSize",this.pageSize);
+    this.baseService.GetList("/Questions",params).subscribe({
       next: (res) => {
         if(res.data != undefined){
           this.questionlist = res.data;
@@ -36,7 +42,8 @@ export class AdminHomeComponent implements OnInit {
   }
   DeleteQuestion(id: number){
     if(id != 0){
-      this.baseService.DeleteById(id,"/Questions").subscribe({
+      const params = new HttpParams().set("id",id);
+      this.baseService.DeleteById(params,"/Questions").subscribe({
         next: (res) => {
           if(res.success){
             this._snackbar.open(res.message, "ok", {
@@ -51,8 +58,8 @@ export class AdminHomeComponent implements OnInit {
     }
   }
   handlePageChange(event: any): void {
-    this.questionService.currentPage = event.pageIndex;
-    this.questionService.pageSize = event.pageSize;
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
     this.GetList();
   }
 

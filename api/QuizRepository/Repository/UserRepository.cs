@@ -21,13 +21,50 @@ namespace QuizRepository.Repository
             {
                 return dbUser;
             }
-            throw new Exception("Enter registered email");
+            throw new Exception("user doesn't exist");
             
         }
-        
+        public TblUser GetUserById(int id)
+        {
+            UserModel user = new UserModel();
+            var dbUser = _context.TblUsers.FirstOrDefault(x => x.Id == id && x.IsDeleted == false);
+            if (dbUser != null)
+            {
+                return dbUser;
+            }
+            throw new Exception("user doesn't exist");
+
+        }
+
         public void SaveUser(TblUser user)
         {
-            _context.TblUsers.Add(user);
+            if (user.Id == 0)
+            {
+                _context.TblUsers.Add(user);
+            }
+            else
+            {
+                _context.TblUsers.Update(user);
+            }
+            
+            _context.SaveChanges();
+        }
+
+        public List<TblUser> GetList()
+        {
+            var userList = _context.TblUsers.Where(u => u.IsDeleted == false).ToList();
+            return userList;
+        }
+        public void AddEditUser(TblUser user)
+        {
+            if (user.Id == 0)
+            {
+                _context.TblUsers.Add(user);
+            }
+            else
+            {
+                _context.TblUsers.Update(user);
+            }
             _context.SaveChanges();
         }
     }

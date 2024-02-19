@@ -10,9 +10,9 @@ export class BaseService<TRequestModel,TResponseModel> {
 
   constructor(private http:HttpClient) { }
 
-GetList(controllerName: string){
-  return this.http.get<BaseApiResponse<TResponseModel>>(apiPath + controllerName);
-}
+  GetList(controllerName: string, params: HttpParams) {
+    return this.http.get<BaseApiResponse<TResponseModel>>(apiPath + controllerName, { params });
+  }
 
   GetDataById(id: number,controllerName: string){
     const params = new HttpParams().set("id",id);
@@ -22,8 +22,7 @@ GetList(controllerName: string){
     return this.http.post<BaseApiResponse<TResponseModel>>(apiPath + controllerName,RequestModel)
   }
 
-  DeleteById(id: number,controllerName: string){
-    const params = new HttpParams().set("id",id);
+  DeleteById(params: HttpParams,controllerName: string){
     return this.http.delete<BaseApiResponse<TResponseModel>>(apiPath + controllerName,{ params });
   }
 }

@@ -11,6 +11,9 @@ namespace QuizRepository.IRepository
     public interface IUserRepository
     {
         TblUser GetUser(string email);
+        TblUser GetUserById(int id);
         void SaveUser(TblUser user);
+        List<TblUser> GetList();
+        void AddEditUser(TblUser user);
     }
 }

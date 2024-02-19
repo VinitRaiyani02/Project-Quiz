@@ -1,5 +1,6 @@
 import { Genders } from "src/app/shared/enums/gender.enum";
 import { QuestionType } from "src/app/shared/enums/question-type";
+import { UserRole } from "src/app/shared/enums/userrole.enum";
 
 export interface InputFieldProps{
     ControlName: string,
@@ -31,6 +32,7 @@ export const questionTypeSelectOptions: ISelectOptions[] = Object.values(Questio
     text: type,
     value: type
 }));
+
 
 export const InitInputField : InputFieldProps = {
     ControlName: '',

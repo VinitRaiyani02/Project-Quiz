@@ -14,6 +14,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import { HomeModule } from './modules/home/home.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { UserModule } from './modules/user/user.module';
+import { HeaderComponent } from './components/header/header.component';
 
 
 
@@ -23,6 +24,7 @@ import { UserModule } from './modules/user/user.module';
     AppComponent,
     DemoDirective,
     NotfoundComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

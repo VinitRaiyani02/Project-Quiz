@@ -22,7 +22,7 @@ export class UserService {
       return this.http.get<BaseApiResponse<LoginResponse>>(apiPath + "/User",{ params });
   }
 
-  SaveData(data: UserModel){
+  SaveData(data: FormData){
     return this.http.post<BaseApiResponse<UserModel>>(apiPath + "/User",data);
   }
 }

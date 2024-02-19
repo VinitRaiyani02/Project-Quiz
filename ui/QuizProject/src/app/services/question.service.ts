@@ -4,6 +4,7 @@ import { QuestionsModel } from '../models/questions.model';
 import { apiPath } from '../shared/constants/apipath.const';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { QuestionListModel } from '../models/question-list.model';
+import { QuestionViewModel } from '../models/questionview.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class QuestionService {
     .set("currentPage",this.currentPage)
     .set("pageSize",this.pageSize);
     return this.http.get<BaseApiResponse<QuestionListModel>>(apiPath + "/Questions",{ params });
+  }
+  
+  GetUserAnsReport(){
+    return this.http.get<BaseApiResponse<QuestionViewModel[]>>(apiPath + "/UserQuestions");
   }
 
   SaveData(data: QuestionsModel){

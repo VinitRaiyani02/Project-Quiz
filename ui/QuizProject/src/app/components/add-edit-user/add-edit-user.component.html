@@ -1,0 +1,41 @@
+<div class="container mt-3">
+
+    <div>
+        <h2 *ngIf="id == 0">Add</h2>
+        <h2 *ngIf="id != 0">Edit</h2>
+    </div>
+    <div *ngIf="imagePath != ''">
+        <img src="{{imagePath}}" style="width: 10%;" alt="Flag Image">
+      </div>
+    <form [formGroup]="userForm" (ngSubmit)="SaveUser()">
+        <div class="row">
+            <div class="col-sm-6 mt-2">
+                <label class="form-label">upload Image here</label>
+                <input type="file" class="form-control form-control-lg" id="image" accept="image/*" formControlName="userImage"
+          (change)="onFileSelected($event)">
+            </div>
+            <div class="col-sm-6 mt-2"></div>
+            <div class="col-sm-6 mt-2">
+                <app-input-field [props]="inputUserNameProps" [parentForm]="userForm"></app-input-field>
+            </div>
+            <div class="col-sm-6 mt-2">
+                <app-input-field [props]="inputEmailProps" [parentForm]="userForm"></app-input-field>
+            </div>
+            <div class="col-sm-6 mt-2">
+                <app-select-field [props]="inputGenderProps" [parentForm]="userForm"></app-select-field>
+            </div>
+            <div class="col-sm-6 mt-2" *ngIf="role == '1'">
+                <app-select-field [props]="inputRoleProps" [parentForm]="userForm"></app-select-field>
+            </div>
+            <div class="col-sm-6 mt-2">
+                <app-select-field [props]="inputLanguageProps" [parentForm]="userForm"></app-select-field>
+            </div>
+            <div class="col-sm-6 mt-2" *ngIf="id == 0">
+                <app-input-field [props]="inputPasswordProps" [parentForm]="userForm"></app-input-field>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end mt-2">
+            <button mat-stroked-button color="primary" type="submit">Save</button>
+        </div>
+    </form>
+</div>

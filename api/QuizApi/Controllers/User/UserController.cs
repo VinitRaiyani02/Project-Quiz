@@ -1,11 +1,9 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Win32;
 using QuizServices.Common;
 using QuizServices.IServices;
-using QuizServices.Services;
+using System.Security.Claims;
 
 namespace QuizApi.Controllers.LoginController
 {
@@ -16,9 +14,9 @@ namespace QuizApi.Controllers.LoginController
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
 
-        public UserController(IConfiguration configuration)
+        public UserController(IConfiguration configuration,IUserService userService)
         {
-            _userService = new UserService();
+            _userService = userService;
             _configuration = configuration;
         }
     
@@ -29,17 +27,25 @@ namespace QuizApi.Controllers.LoginController
             var data = _userService.Login(email, password);
 
             var jwtSettings = _configuration.GetSection(nameof(JwtSetting)).Get<JwtSetting>();
-            var token = JwtTokenHelper.GenerateToken(jwtSettings, data);
             LoginResponse response = new LoginResponse();
+            var token = JwtTokenHelper.GenerateToken(jwtSettings, data);
             response.token = token;
+
             return new ApiResponse<LoginResponse>(200, true, "login successfull", response);
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public ApiResponse<UserModel> RegisterUser(UserModel model)
+        public ApiResponse<UserModel> RegisterUser([FromForm] UserModel model)
         {
-            var data = _userService.Register(model);
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            
+            var role = "";
+            if (identity != null)
+            {
+                role = identity.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
+            }
+            var data = _userService.Register(model,role);
             return new ApiResponse<UserModel>(200, true, "user registered successfully", data);
         }
     }

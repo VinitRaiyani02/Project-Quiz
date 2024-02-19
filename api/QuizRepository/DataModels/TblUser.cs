@@ -18,6 +18,7 @@ namespace QuizRepository.DataModels
         public int RoleId { get; set; }
         public string Password { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
+        public string? ImagePath { get; set; }
         public bool IsDeleted { get; set; }
 
         public virtual TblLanguage Language { get; set; } = null!;

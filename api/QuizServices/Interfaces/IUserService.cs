@@ -11,6 +11,10 @@ namespace QuizServices.IServices
     public interface IUserService
     {
         UserModel Login(string username, string password);
-        UserModel Register(UserModel user);
+        UserModel Register(UserModel user,string role);
+
+        UsersListModel GetList(int currentPage,int pageSize);
+        void DeleteUser(string email);
+        UserModel GetUserById(int id);
     }
 }

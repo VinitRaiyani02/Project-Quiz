@@ -8,6 +8,7 @@ import { BaseModule } from '../common/common.module';
 import { AddEditQuestionComponent } from 'src/app/components/add-edit-question/add-edit-question.component';
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { RadiowithinputComponent } from 'src/app/shared/components/forms/radiowithinput/radiowithinput.component';
+import { ShowUserListComponent } from 'src/app/components/show-user-list/show-user-list.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { RadiowithinputComponent } from 'src/app/shared/components/forms/radiowi
     AdminHomeComponent,
     AddEditQuestionComponent,
     PaginationComponent,
-    RadiowithinputComponent
+    RadiowithinputComponent,
+    ShowUserListComponent
   ],
   imports: [
     CommonModule,

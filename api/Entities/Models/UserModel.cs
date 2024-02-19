@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 
@@ -19,5 +20,7 @@ namespace Entities.Models
         public string Password { get; set; } = null!;
         public DateTime? CreatedOn { get; set; }
         public bool IsDeleted { get; set; }
+        public string? userImgPath { get; set; }
+        public IFormFile? userImage { get; set; }
     }
 }

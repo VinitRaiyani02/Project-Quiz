@@ -25,4 +25,8 @@
     <ProjectReference Include="..\QuizServices\QuizServices.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\swagger\Content\Images\" />
+  </ItemGroup>
+
 </Project>

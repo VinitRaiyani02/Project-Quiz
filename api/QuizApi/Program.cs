@@ -4,6 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using QuizApi.CustomMiddlewares;
 using QuizRepository.DataModels;
 using System.Text;
+using QuizServices.IServices;
+using QuizServices.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSetting:Key"]))
     };
 });
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAuthorization();
 
 // Add configuration from appsettings.json
@@ -45,7 +48,7 @@ builder.Services.AddDbContext<QuestionsDatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
-
+app.UseStaticFiles();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

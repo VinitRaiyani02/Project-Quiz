@@ -3,7 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { InputFieldProps } from 'src/app/models/forms/InputFieldsProps';
+import { HelperService } from 'src/app/services/helper.service';
 import { UserService } from 'src/app/services/user.service';
+import { apiPathForImage } from 'src/app/shared/constants/apipath.const';
 import { UserRole } from 'src/app/shared/enums/userrole.enum';
 import { TokenService } from 'src/app/shared/services/token.service';
 
@@ -13,7 +15,8 @@ import { TokenService } from 'src/app/shared/services/token.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  constructor(private router: Router,private service: UserService,private _snackbar:MatSnackBar,private tokenService: TokenService){
+  constructor(private router: Router,private service: UserService,private _snackbar:MatSnackBar,private tokenService: TokenService,
+    private helperService: HelperService){
     
   }
   loginForm: FormGroup = new FormGroup('');
@@ -33,10 +36,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let btnid = document.getElementById("logoutbtn");
-    if(btnid != null){
-      btnid.style.display = "none";
-    }
     this.loginForm = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
@@ -59,11 +58,20 @@ export class LoginComponent implements OnInit {
               f.classList.add('form-submitted');
             })
             if (res.data != undefined) {
-              
               sessionStorage.setItem("token", res.data.token);
               this.tokenService.setToken();
               let role = this.tokenService.getUserRole();
               sessionStorage.setItem('role',role);
+              
+              
+              this.helperService.loggedIn.set(true);
+              this.helperService.userRole.set(role);
+              
+              let customClaims = this.tokenService.getCustomClaims();
+              this.helperService.userImg.set(apiPathForImage + customClaims.userImgPath);
+              sessionStorage.setItem('userName',customClaims.UserName);
+              sessionStorage.setItem('id',customClaims.Id);
+
               if (role == UserRole.User) {
                 this.router.navigate(['user']);
               }

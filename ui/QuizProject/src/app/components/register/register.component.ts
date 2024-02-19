@@ -112,7 +112,13 @@ constructor(private languageService: LanguageService,private userService: UserSe
       f.classList.remove('form-submitted');
     })
     if (this.registerForm.valid) {
-      this.userService.SaveData(this.userData).subscribe({
+      const formData = new FormData();
+      formData.append('userName', this.userData.userName);
+      formData.append('password', this.userData.password);
+      formData.append('email', this.userData.email);
+      formData.append('gender', this.userData.gender);
+      formData.append('languageid', this.userData.languageid.toString());
+      this.userService.SaveData(formData).subscribe({
         next: (res) => {
           if (res.success) {
             const errorFields = document.querySelectorAll('.error-ul');

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionViewModel } from 'src/app/models/questionview.model';
-import { BaseService } from 'src/app/services/base.service';
+import { QuestionService } from 'src/app/services/question.service';
 
 @Component({
   selector: 'app-show-questions-ans',
@@ -9,12 +9,12 @@ import { BaseService } from 'src/app/services/base.service';
 })
 export class ShowQuestionsAnsComponent implements OnInit {
 
-  constructor(private baseService: BaseService<QuestionViewModel[],QuestionViewModel[]>){
+  constructor(private questionService: QuestionService){
 
   }
   viewAnswers: QuestionViewModel[] = [];
   ngOnInit(): void {
-    this.baseService.GetList('/UserQuestions').subscribe({
+    this.questionService.GetUserAnsReport().subscribe({
       next: (res) => {
         if(res.success){
           if(res.data != undefined){

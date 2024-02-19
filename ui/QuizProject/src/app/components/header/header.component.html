@@ -1,7 +1,25 @@
-<mat-toolbar>
-    <span>My Quiz</span>
+<mat-toolbar class="header">
+    <span class="ms-2">My Quiz</span>
+    <ul class="m-0 d-flex align-items-center">
+        <li [routerLinkActive]="['Active']">
+            <button mat-stroked-button class="ms-5" *ngIf="helperService.loggedIn() == true && helperService.userRole() == '1'" [routerLink]= "['admin']">
+                Questions
+            </button>
+        </li>
+        <li [routerLinkActive]="['Active']">
+            <button mat-stroked-button  class="mx-2" *ngIf="helperService.loggedIn() == true && helperService.userRole() == '1'" [routerLink]="['admin','userlist']" >
+                Users
+            </button>
+        </li>
+    </ul>
     <span class="example-spacer"></span>
-    <button mat-stroked-button color="primary" id="logoutbtn" (click)="Logout()">
-        Logout
+    <div class="d-flex align-items-center justify-content-between me-3" *ngIf="helperService.loggedIn() == true">
+        <button mat-stroked-button  class="ms-1" (click)="Profile()">
+            <img class="image"  src='{{helperService.userImg()}}' alt="">
+            {{helperService.userName()}}
+        </button>
+    </div>
+    <button mat-stroked-button id="logoutbtn" (click)="Logout()" *ngIf="helperService.loggedIn() == true">
+        <span>Logout</span>
     </button>
 </mat-toolbar>
