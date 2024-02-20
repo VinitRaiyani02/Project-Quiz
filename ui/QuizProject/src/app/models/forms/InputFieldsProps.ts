@@ -11,6 +11,7 @@ export interface InputFieldProps{
     FormGroupName?:string,
     FormArrayName?:string,
     List?:string[],
+    accept?: string,
     SelectOptions?: ISelectOptions[]
 }
 export interface ISelectOptions{

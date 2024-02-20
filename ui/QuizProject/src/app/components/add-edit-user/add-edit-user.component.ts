@@ -19,14 +19,22 @@ import { UserRole } from 'src/app/shared/enums/userrole.enum';
 })
 export class AddEditUserComponent implements OnInit {
 
-  constructor(private languageService: LanguageService,private baseService: BaseService<FormData,UserModel>,
-    private router: Router,private _snackbar: MatSnackBar,private route: ActivatedRoute,private helperService:HelperService){
-    
+  constructor(private languageService: LanguageService, private baseService: BaseService<FormData, UserModel>,
+    private router: Router, private _snackbar: MatSnackBar, private route: ActivatedRoute, private helperService: HelperService) {
+
+  }
+  inputImageProps: InputFieldProps = {
+    ControlName: 'userImage',
+    Type: '',
+    Label: 'upload Image here',
+    IsDisabled: false,
+    PlaceHolder: 'image',
+    accept: 'image/*'
   }
   inputUserNameProps: InputFieldProps = {
     ControlName: 'userName',
     Type: 'text',
-    Label: 'UserName',
+    Label: 'Name',
     IsDisabled: false,
     PlaceHolder: 'UserName'
   }
@@ -98,42 +106,42 @@ export class AddEditUserComponent implements OnInit {
       }
     });
     let role = sessionStorage.getItem('role');
-    if(role != null){
+    if (role != null) {
       this.role = role;
     }
 
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
     });
-    if(this.id != 0){
-      this.baseService.GetDataById(this.id,"/GetUser").subscribe({
+    if (this.id != 0) {
+      this.baseService.GetDataById(this.id, "/GetUser").subscribe({
         next: (res) => {
-            if(res.success && res.data != undefined){
-              if(res.data?.userImgPath != undefined){
-                this.imagePath = apiPathForImage + res.data?.userImgPath;
-              }
-              this.userForm.get("userName")?.setValue(res.data?.userName);
-              this.userForm.get("email")?.setValue(res.data?.email);
-              this.userForm.get("gender")?.setValue(res.data?.gender);
-              this.userForm.get("role")?.setValue(res.data?.roleId);
-              this.userForm.get("language")?.setValue(res.data?.languageid);
-              this.userForm.get("password")?.setValue("Demoo@123");
+          if (res.success && res.data != undefined) {
+            if (res.data?.userImgPath != undefined) {
+              this.imagePath = apiPathForImage + res.data?.userImgPath;
             }
+            this.userForm.get("userName")?.setValue(res.data?.userName);
+            this.userForm.get("email")?.setValue(res.data?.email);
+            this.userForm.get("gender")?.setValue(res.data?.gender);
+            this.userForm.get("role")?.setValue(res.data?.roleId);
+            this.userForm.get("language")?.setValue(res.data?.languageid);
+            this.userForm.get("password")?.setValue("Demoo@123");
+          }
         },
         error: (error) => {
           console.log(error);
         }
       })
     }
-    
+
 
     this.userForm = new FormGroup({
-      userName: new FormControl('',Validators.required),
-      email: new FormControl('',[Validators.required,Validators.email]),
-      gender: new FormControl(Genders.Male,Validators.required),
-      role: new FormControl(UserRole.Admin,Validators.required),
-      language: new FormControl('1',Validators.required),
-      password: new FormControl('',[Validators.required,Validators.pattern(StrongPasswordRegx)]),
+      userName: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      gender: new FormControl(Genders.Male, Validators.required),
+      role: new FormControl(UserRole.Admin, Validators.required),
+      language: new FormControl('1', Validators.required),
+      password: new FormControl('', [Validators.required, Validators.pattern(StrongPasswordRegx)]),
       userImage: new FormControl(null)
     });
 
@@ -157,53 +165,53 @@ export class AddEditUserComponent implements OnInit {
       this.imagePath = URL.createObjectURL(file);
     }
   }
-  SaveUser(){
+  SaveUser() {
     const fields = document.querySelectorAll('.form-submitted');
     fields.forEach(f => {
       f.classList.remove('form-submitted');
     })
-   
-    if(this.imgFile != null){
+
+    if (this.imgFile != null) {
       this.user.userImage = this.imgFile;
     }
-    if(this.userForm.valid){
+    if (this.userForm.valid) {
       const formData = new FormData();
       formData.append('id', this.id.toString());
       formData.append('userName', this.user.userName);
       formData.append('password', this.user.password);
       formData.append('email', this.user.email);
       formData.append('gender', this.user.gender);
-      if(this.user.userImage != undefined){
+      if (this.user.userImage != undefined) {
         formData.append('userImage', this.user.userImage);
       }
       formData.append('roleId', this.user.roleId.toString());
       formData.append('languageid', this.user.languageid.toString());
-      this.baseService.SaveData(formData,"/User").subscribe({
+      this.baseService.SaveData(formData, "/User").subscribe({
         next: (res) => {
           if (res.success) {
-                  const errorFields = document.querySelectorAll('.error-ul');
-                  errorFields.forEach(f => {
-                    f.classList.add('form-submitted');
-                  })
-                  this.helperService.GetValues();
-                  if(this.role == '1'){
-                    this.router.navigate(['admin','userlist']);
-                  }
-                  else{
-                    this.router.navigate(['user']);
-                  }
-                } 
-                this._snackbar.open(res.message, "ok", {
-                  duration: 1500,
-                  verticalPosition: "top",
-                  horizontalPosition: "right"
-                })
+            const errorFields = document.querySelectorAll('.error-ul');
+            errorFields.forEach(f => {
+              f.classList.add('form-submitted');
+            })
+            this.helperService.GetValues();
+            if (this.role == '1') {
+              this.router.navigate(['admin', 'userlist']);
+            }
+            else {
+              this.router.navigate(['user']);
+            }
+          }
+          this._snackbar.open(res.message, "ok", {
+            duration: 1500,
+            verticalPosition: "top",
+            horizontalPosition: "right"
+          })
         },
         error: (error) => {
           console.log(error);
         }
       })
-      
+
     }
   }
 }

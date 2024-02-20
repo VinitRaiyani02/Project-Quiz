@@ -30,7 +30,6 @@ export class UserQuestionsComponent implements OnInit {
     .set("pageSize",10);
     this.newBaseService.GetList("/Questions",params).subscribe({
       next: (res) => {
-        console.log(res.data);
         if(res.data != undefined){
           this.questionList = res.data;
         }

@@ -7,3 +7,8 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.second-header{
+  background-color: ghostwhite;
+  border-bottom: 1px solid #cdc6c6;
+}

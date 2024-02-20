@@ -15,5 +15,6 @@ namespace QuizRepository.IRepository
         void SaveUser(TblUser user);
         List<TblUser> GetList();
         void AddEditUser(TblUser user);
+        void IsEmailAlreadyExist(string email);
     }
 }

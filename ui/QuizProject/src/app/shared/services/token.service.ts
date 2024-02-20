@@ -27,10 +27,6 @@ export class TokenService {
     this.decodeToken();
     return this.decodedToken ? this.decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] : null;
   }
-  // setUserRole(val: string){
-  //   this.decodeToken();
-  //   this.decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] = val;
-  // }
 
   getCustomClaims(){
     this.decodeToken();
@@ -38,12 +34,6 @@ export class TokenService {
     sessionStorage.setItem('userImagePath',customClaims.userImgPath); 
     return customClaims;
   }
-  // setCustomClaims(path: string){
-  //   this.decodeToken();
-  //   let customClaims = JSON.parse(this.decodedToken['CustomClaimForUser']);
-  //   customClaims.userImgPath = path;
-  //   this.decodedToken['CustomClaimForUser'] = JSON.stringify(customClaims);
-  // }
 
   getExpiryTime() {
     this.decodeToken();

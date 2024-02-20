@@ -46,7 +46,7 @@ namespace QuizApi.Controllers.LoginController
                 role = identity.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
             }
             var data = _userService.Register(model,role);
-            return new ApiResponse<UserModel>(200, true, "user registered successfully", data);
+            return new ApiResponse<UserModel>(200, true, "data saved successfully", data);
         }
     }
     

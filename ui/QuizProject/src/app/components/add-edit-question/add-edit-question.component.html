@@ -33,21 +33,20 @@
 
                     <div class="col-12 mt-2" *ngIf="questionForm.value.questionType == 'Single'">
                         <div formArrayName="optionAns">
-                        <ng-container *ngFor="let option of options; index as i;">
-                            <div [formGroupName]="i" class="d-flex">
-                                <input type="text" class="form-control mt-2 form-control-lg input-valid-border"
-                                    formControlName="option" placeholder="Option {{ i + 1 }}">
-                                <mat-radio-button [value]="i" [checked]="getOptionControl(i).value"
-                                    (click)="onRadioChange(i)">Is Answer</mat-radio-button>
-                            </div>
-                            <ul class="text-danger error-ul form-submitted">
-                                <li
-                                    *ngIf="questionForm.get('optionAns')?.get(i.toString())?.get('option')?.errors?.['required']">
-                                    This field is required
-                                </li>
-                            </ul>
-                        </ng-container>
-                    </div>
+                            <ng-container *ngFor="let option of options; index as i;">
+                                <div [formGroupName]="i" class="d-flex">
+                                    <input type="text" class="form-control mt-2 form-control-lg input-valid-border" formControlName="option"
+                                        placeholder="Option {{ i + 1 }}">
+                                    <mat-radio-button [value]="i" [checked]="getOptionControl(i).value" (click)="onRadioChange(i)">Is
+                                        Answer</mat-radio-button>
+                                </div>
+                                <ul class="text-danger error-ul form-submitted">
+                                    <li *ngIf="questionForm.get('optionAns')?.get(i.toString())?.get('option')?.errors?.['required']">
+                                        This field is required
+                                    </li>
+                                </ul>
+                            </ng-container>
+                        </div>
                         <!-- <app-radiowithinput [questionType]="questionForm.value.questionType" [options]="options" (optionChange)="onRadioChange($event)"></app-radiowithinput> -->
                     </div>
 

@@ -70,6 +70,7 @@ namespace QuizServices.Services
             }
             if (user.Id == 0)
             {
+                _userRepository.IsEmailAlreadyExist(user.Email);
                 TblUser newUser = new TblUser
                 {
                     Email = user.Email,

@@ -1,41 +1,48 @@
-<div class="container mt-3">
-
-    <div>
-        <h2 *ngIf="id == 0">Add</h2>
-        <h2 *ngIf="id != 0">Edit</h2>
-    </div>
-    <div *ngIf="imagePath != ''">
-        <img src="{{imagePath}}" style="width: 10%;" alt="Flag Image">
-      </div>
-    <form [formGroup]="userForm" (ngSubmit)="SaveUser()">
-        <div class="row">
-            <div class="col-sm-6 mt-2">
-                <label class="form-label">upload Image here</label>
-                <input type="file" class="form-control form-control-lg" id="image" accept="image/*" formControlName="userImage"
-          (change)="onFileSelected($event)">
-            </div>
-            <div class="col-sm-6 mt-2"></div>
-            <div class="col-sm-6 mt-2">
-                <app-input-field [props]="inputUserNameProps" [parentForm]="userForm"></app-input-field>
-            </div>
-            <div class="col-sm-6 mt-2">
-                <app-input-field [props]="inputEmailProps" [parentForm]="userForm"></app-input-field>
-            </div>
-            <div class="col-sm-6 mt-2">
-                <app-select-field [props]="inputGenderProps" [parentForm]="userForm"></app-select-field>
-            </div>
-            <div class="col-sm-6 mt-2" *ngIf="role == '1'">
-                <app-select-field [props]="inputRoleProps" [parentForm]="userForm"></app-select-field>
-            </div>
-            <div class="col-sm-6 mt-2">
-                <app-select-field [props]="inputLanguageProps" [parentForm]="userForm"></app-select-field>
-            </div>
-            <div class="col-sm-6 mt-2" *ngIf="id == 0">
-                <app-input-field [props]="inputPasswordProps" [parentForm]="userForm"></app-input-field>
-            </div>
+<div class="second-header py-3 px-4 d-flex">
+    <div class="row w-100">
+        <div class="col-sm-3">
+            <h3 *ngIf="id == 0">Add</h3>
+            <h3 *ngIf="id != 0">Edit</h3>
         </div>
-        <div class="d-flex justify-content-end mt-2">
-            <button mat-stroked-button color="primary" type="submit">Save</button>
+    </div>
+</div>
+<div class="container-fluid mt-3">
+    <form [formGroup]="userForm" (ngSubmit)="SaveUser()">
+        <div class="row px-3">
+            <div class="col-4 ps-3">
+                <div class="d-flex justify-content-center" *ngIf="imagePath != ''">
+                    <img src="{{imagePath}}" style="width: 156px;" alt="Flag Image">
+                </div>
+                <div class="mt-2">
+                    <app-file-field [props]="inputImageProps" [parentForm]="userForm"
+                        (change)="onFileSelected($event)"></app-file-field>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-6 mt-2">
+                        <app-input-field [props]="inputUserNameProps" [parentForm]="userForm"></app-input-field>
+                    </div>
+                    <div class="col-sm-6 mt-2">
+                        <app-input-field [props]="inputEmailProps" [parentForm]="userForm"></app-input-field>
+                    </div>
+                    <div class="col-sm-6 mt-2">
+                        <app-select-field [props]="inputGenderProps" [parentForm]="userForm"></app-select-field>
+                    </div>
+                    <div class="col-sm-6 mt-2" *ngIf="role == '1'">
+                        <app-select-field [props]="inputRoleProps" [parentForm]="userForm"></app-select-field>
+                    </div>
+                    <div class="col-sm-6 mt-2">
+                        <app-select-field [props]="inputLanguageProps" [parentForm]="userForm"></app-select-field>
+                    </div>
+                    <div class="col-sm-6 mt-2" *ngIf="id == 0">
+                        <app-input-field [props]="inputPasswordProps" [parentForm]="userForm"></app-input-field>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-4">
+                    <button mat-stroked-button color="primary" class="px-5" type="submit">Save</button>
+                </div>
+            </div>
         </div>
     </form>
 </div>

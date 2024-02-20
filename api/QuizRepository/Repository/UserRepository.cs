@@ -15,25 +15,27 @@ namespace QuizRepository.Repository
 
         public TblUser GetUser(string email)
         {
-            UserModel user = new UserModel();
             var dbUser = _context.TblUsers.FirstOrDefault(x => x.Email == email && x.IsDeleted == false);
             if (dbUser != null)
             {
                 return dbUser;
             }
             throw new Exception("user doesn't exist");
-            
         }
         public TblUser GetUserById(int id)
         {
-            UserModel user = new UserModel();
             var dbUser = _context.TblUsers.FirstOrDefault(x => x.Id == id && x.IsDeleted == false);
             if (dbUser != null)
             {
                 return dbUser;
             }
             throw new Exception("user doesn't exist");
-
+        }
+        public void IsEmailAlreadyExist(string email){
+            var user = _context.TblUsers.FirstOrDefault(x => x.Email == email && x.IsDeleted == false);
+            if(user != null){
+                throw new Exception("you can't use this email because this email is already registered with us.");
+            }
         }
 
         public void SaveUser(TblUser user)

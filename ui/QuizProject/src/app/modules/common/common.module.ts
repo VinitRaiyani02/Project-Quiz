@@ -11,13 +11,15 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AddEditUserComponent } from 'src/app/components/add-edit-user/add-edit-user.component';
+import { FileFieldComponent } from 'src/app/shared/components/forms/file-field/file-field.component';
 
 
 @NgModule({
   declarations: [
     InputFieldComponent,
     SelectFieldComponent,
-    AddEditUserComponent
+    AddEditUserComponent,
+    FileFieldComponent
   ],
   imports: [
     FormsModule,
