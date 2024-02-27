@@ -22,5 +22,6 @@ namespace QuizRepository.IRepository
         void AddUserQuestion(TblUserQuestionAn question);
         int GetCorrectAnsCount(int userId,int? testNo);
         List<TblUserQuestionAn> GetUserAnswers(int userId);
+        int GetUserScoreCount(int userId);
     }
 }

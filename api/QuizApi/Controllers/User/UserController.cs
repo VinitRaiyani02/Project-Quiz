@@ -31,7 +31,7 @@ namespace QuizApi.Controllers.LoginController
             var token = JwtTokenHelper.GenerateToken(jwtSettings, data);
             response.token = token;
 
-            return new ApiResponse<LoginResponse>(200, true, "login successfull", response);
+            return new ApiResponse<LoginResponse>(200, true, "login successfully", response);
         }
 
         [HttpPost]

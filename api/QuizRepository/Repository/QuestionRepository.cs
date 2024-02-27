@@ -195,5 +195,10 @@ namespace QuizRepository.Repository
             var userAnswers = _context.TblUserQuestionAns.OrderByDescending(x => x.TestNo).Where(u => u.UserId == userId).Take(10).ToList();
             return userAnswers;
         }
+        public int GetUserScoreCount(int userId){
+            var testNo = GetTestNoForUser(userId);
+            var count = GetCorrectAnsCount(userId,testNo.TestNo);
+            return count;
+        }
     }
 }

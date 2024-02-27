@@ -4,8 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ISelectOptions, InputFieldProps, genderSelectOptions } from 'src/app/models/forms/InputFieldsProps';
+import { SnackbarConfig } from 'src/app/models/snackbar-config';
 import { UserModel } from 'src/app/models/user.model';
 import { LanguageService } from 'src/app/services/language.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { StrongPasswordRegx } from 'src/app/shared/constants/RegExp.const';
 import { Genders } from 'src/app/shared/enums/gender.enum';
@@ -18,7 +20,7 @@ import { IDeactivateComponent } from 'src/app/shared/guards/form.guard';
 })
 export class RegisterComponent implements OnInit, IDeactivateComponent {
 constructor(private languageService: LanguageService,private userService: UserService,private router: Router,
-  private _snackbar: MatSnackBar){
+  private snackbarService: SnackbarService){
 
 }
   inputUserNameProps: InputFieldProps = {
@@ -58,6 +60,10 @@ constructor(private languageService: LanguageService,private userService: UserSe
     Label: 'Password',
     IsDisabled: false,
     PlaceHolder: 'Password'
+  }
+  snackbarConfig: SnackbarConfig = {
+    message: '',
+    duration: 2000
   }
 
   registerForm: FormGroup = new FormGroup('');
@@ -128,11 +134,9 @@ constructor(private languageService: LanguageService,private userService: UserSe
             this.registerForm.reset();
             this.router.navigate(['']);
           }
-          this._snackbar.open(res.message, "ok", {
-            duration: 1500,
-            verticalPosition: "top",
-            horizontalPosition: "right"
-          })
+          this.snackbarConfig.message = res.message;
+          this.snackbarConfig.status = res.success ? 'success' : 'error';
+          this.snackbarService.show(this.snackbarConfig);
         }
       })
     }

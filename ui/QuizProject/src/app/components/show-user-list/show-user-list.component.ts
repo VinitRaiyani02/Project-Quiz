@@ -1,10 +1,13 @@
 import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DeleteModel } from 'src/app/models/delete.model';
 import { UserModel } from 'src/app/models/user.model';
 import { UsersListModel } from 'src/app/models/users.model';
 import { BaseService } from 'src/app/services/base.service';
 import { HelperService } from 'src/app/services/helper.service';
+import { DeletePopupComponent } from 'src/app/shared/components/delete-popup/delete-popup.component';
 import { UserRole } from 'src/app/shared/enums/userrole.enum';
 
 @Component({
@@ -15,7 +18,7 @@ import { UserRole } from 'src/app/shared/enums/userrole.enum';
 export class ShowUserListComponent implements OnInit {
 
   constructor(private baseService: BaseService<UserModel,UsersListModel>,
-    private _snackbar: MatSnackBar,private helperService: HelperService){
+    private helperService: HelperService,private dialog: MatDialog){
 
   }
   currentPage: number = 0;
@@ -23,6 +26,11 @@ export class ShowUserListComponent implements OnInit {
   userList: UsersListModel = {
     totalCount: 0
   };
+  deleteModel: DeleteModel = {
+    id: 0,
+    controller: '',
+    itemName: ''
+  }
   userRoles: UserRole = 1;
   ngOnInit(): void {
     this.GetList();
@@ -51,24 +59,14 @@ export class ShowUserListComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.GetList();
   }
-  DeleteUser(email: string){
-    if(email != ""){
-      const params = new HttpParams().set("email",email);
-      this.baseService.DeleteById(params,"/Users").subscribe({
-        next: (res) => {
-          if(res.success){
-            this._snackbar.open(res.message, "ok", {
-              duration: 1500,
-              verticalPosition: "top",
-              horizontalPosition: "right"
-            })
-            this.GetList();
-          }
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      })
-    }
-  }
+  DeleteModelOpen(id: number){
+    this.deleteModel.id = id;
+    this.deleteModel.controller = "/Users";
+    this.deleteModel.itemName = "User";
+     const deleteDialogRef = this.dialog.open(DeletePopupComponent,{width:"600px",data: this.deleteModel});
+     deleteDialogRef.afterClosed().subscribe(result => {
+       this.GetList();
+     });
+   }
+
 }

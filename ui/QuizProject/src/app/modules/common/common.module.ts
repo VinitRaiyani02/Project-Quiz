@@ -8,10 +8,13 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { HeaderComponent } from 'src/app/components/header/header.component';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AddEditUserComponent } from 'src/app/components/add-edit-user/add-edit-user.component';
 import { FileFieldComponent } from 'src/app/shared/components/forms/file-field/file-field.component';
+import { MatDialogModule} from '@angular/material/dialog';
+import { DeletePopupComponent } from 'src/app/shared/components/delete-popup/delete-popup.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
+import { MessageSnackbarComponent } from 'src/app/shared/components/message-snackbar/message-snackbar.component';
 
 
 @NgModule({
@@ -19,7 +22,9 @@ import { FileFieldComponent } from 'src/app/shared/components/forms/file-field/f
     InputFieldComponent,
     SelectFieldComponent,
     AddEditUserComponent,
-    FileFieldComponent
+    FileFieldComponent,
+    DeletePopupComponent,
+    MessageSnackbarComponent
   ],
   imports: [
     FormsModule,
@@ -30,6 +35,9 @@ import { FileFieldComponent } from 'src/app/shared/components/forms/file-field/f
     MatRadioModule,
     MatCheckboxModule,
     MatPaginatorModule,
+    MatDialogModule,
+    MatIconModule,
+    MatMenuModule
   ],
   exports:[
     FormsModule,
@@ -41,7 +49,10 @@ import { FileFieldComponent } from 'src/app/shared/components/forms/file-field/f
     MatToolbarModule,
     MatRadioModule,
     MatCheckboxModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatDialogModule,
+    MatIconModule,
+    MatMenuModule
   ]
 })
 export class BaseModule { }

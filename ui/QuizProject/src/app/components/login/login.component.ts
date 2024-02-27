@@ -3,7 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { InputFieldProps } from 'src/app/models/forms/InputFieldsProps';
+import { SnackbarConfig } from 'src/app/models/snackbar-config';
 import { HelperService } from 'src/app/services/helper.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { apiPathForImage } from 'src/app/shared/constants/apipath.const';
 import { UserRole } from 'src/app/shared/enums/userrole.enum';
@@ -15,8 +17,8 @@ import { TokenService } from 'src/app/shared/services/token.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  constructor(private router: Router,private service: UserService,private _snackbar:MatSnackBar,private tokenService: TokenService,
-    private helperService: HelperService){
+  constructor(private router: Router,private service: UserService,private tokenService: TokenService,
+    private helperService: HelperService,private snackbarService: SnackbarService){
     
   }
   loginForm: FormGroup = new FormGroup('');
@@ -33,6 +35,10 @@ export class LoginComponent implements OnInit {
     Label: 'Password',
     IsDisabled: false,
     PlaceHolder: 'Password'
+  }
+  snackbarConfig: SnackbarConfig = {
+    message: '',
+    duration: 2000
   }
 
   ngOnInit(): void {
@@ -63,7 +69,6 @@ export class LoginComponent implements OnInit {
               let role = this.tokenService.getUserRole();
               sessionStorage.setItem('role',role);
               
-              
               this.helperService.loggedIn.set(true);
               this.helperService.userRole.set(role);
               
@@ -80,11 +85,9 @@ export class LoginComponent implements OnInit {
               }
             }
           }
-          this._snackbar.open(res.message, "ok", {
-            duration: 1500,
-            verticalPosition: "top",
-            horizontalPosition: "right"
-          })
+          this.snackbarConfig.message = res.message;
+          this.snackbarConfig.status = res.success ? 'success' : 'error';
+          this.snackbarService.show(this.snackbarConfig);
         }
       });
     }

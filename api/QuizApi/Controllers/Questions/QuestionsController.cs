@@ -37,6 +37,9 @@ namespace QuizApi.Controllers.Questions
         public ApiResponse<QuestionsModel> AddEditQuestion(QuestionsModel question)
         {
             var data = _questionService.AddEditQuestion(question);
+            if(question.Id != 0){
+                return new ApiResponse<QuestionsModel>(200, true, "question updated successfully", data);
+            }
             return new ApiResponse<QuestionsModel>(200, true, "question added successfully", data);
         }
 

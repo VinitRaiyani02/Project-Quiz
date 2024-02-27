@@ -1,13 +1,12 @@
-<div formArrayName="optionAns">
-    <ng-container *ngFor="let optionGroup of optionFormArray.controls; let i = index">
-      <div [formGroupName]="i" class="d-flex">
-        <input type="text" class="form-control form-control-lg input-valid-border" formControlName="option"
-          placeholder="Option {{ i + 1 }}">
-        <mat-radio-button [value]="i" (change)="onRadioChange(i)">Is Answer</mat-radio-button>
-      </div>
-      <ul class="text-danger error-ul form-submitted">
-        <li *ngIf="optionGroup.get('option')?.errors?.['required']">This field is required</li>
-      </ul>
-    </ng-container>
+<!-- <ng-container *ngFor="let optionGroup of options; let i = index">
+  <div [formGroup]="getFormgroup(i)" class="d-flex"> -->
+    <div class="mt-2">
+      <input type="text" class="form-control form-control-lg input-valid-border" [formControl]="getOptionControl(index)"
+      placeholder="Option {{ index + 1 }}">
+    </div>
+    <!-- <mat-radio-button [value]="i" (change)="onRadioChange(i)" [checked]="getIsAnsControl(i).value">Is Answer</mat-radio-button>
   </div>
-  
+  <ul class="text-danger error-ul form-submitted">
+    <li *ngIf="optionGroup.get('option')?.errors?.['required']">This field is required</li>
+  </ul>
+</ng-container> -->

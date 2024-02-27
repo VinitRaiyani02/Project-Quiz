@@ -5,8 +5,10 @@ import { Router } from '@angular/router';
 import { QuestionAnsSummary } from 'src/app/models/question-ans-summary.model';
 import { QuestionListModel } from 'src/app/models/question-list.model';
 import { OptionAnsItem, QuestionsModel } from 'src/app/models/questions.model';
+import { SnackbarConfig } from 'src/app/models/snackbar-config';
 import { BaseService } from 'src/app/services/base.service';
 import { QuestionService } from 'src/app/services/question.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-user-questions',
@@ -16,12 +18,18 @@ import { QuestionService } from 'src/app/services/question.service';
 export class UserQuestionsComponent implements OnInit {
 
   constructor(private questionService: QuestionService,private baseServce: BaseService<QuestionListModel,QuestionAnsSummary>,
-    private router: Router,private _snackbar: MatSnackBar,private newBaseService: BaseService<QuestionsModel,QuestionListModel>){
+    private router: Router,private newBaseService: BaseService<QuestionsModel,QuestionListModel>,
+    private snackbarService: SnackbarService){
     
   }
   questionList: QuestionListModel = {
     totalCount: 0
   };
+  snackbarConfig: SnackbarConfig = {
+    message: '',
+    duration: 2000
+  }
+  activeQuestionIndex: number = 0;
   index: number = 0;
   notAllQuestionsAnswered: boolean = false;
   ngOnInit(): void {
@@ -92,11 +100,9 @@ export class UserQuestionsComponent implements OnInit {
             alert("you have answered" + res.data?.correctAnswers + " right questions");
             this.router.navigate(['user/report']);
           }
-          this._snackbar.open(res.message, "", {
-            duration: 1500,
-            verticalPosition: "top",
-            horizontalPosition: "right"
-          })
+          this.snackbarConfig.message = res.message;
+          this.snackbarConfig.status = res.success ? 'success' : 'error';
+          this.snackbarService.show(this.snackbarConfig);
         },
         error: (error) => {
           console.log(error);
@@ -105,6 +111,11 @@ export class UserQuestionsComponent implements OnInit {
     }
     else {
       this.notAllQuestionsAnswered = true;
+    }
+  }
+  Cancel(){
+    if(confirm('are you sure you want to go back?')){
+      this.router.navigate(['/user']);
     }
   }
 }

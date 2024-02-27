@@ -1,33 +1,43 @@
-<div class="py-3 px-4 d-flex justify-content-end second-header">
-    <button mat-stroked-button color="primary" [routerLink]="['add-edit']" [queryParams]="{ id: 0 }">Add User</button>
+<div class="pb-3 pt-4 px-4 d-flex justify-content-between align-items-center container">
+    <h3>Users</h3>
+    <!-- <button mat-raised-button color="primary" [routerLink]="['add-edit']" [queryParams]="{ id: 0 }">Add User</button> -->
 </div>
-<div class="container mt-4">
-    <table class="mt-3" style="width:100%;">
-        <thead>
-            <tr>
-                <th>UserName</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>CreatedOn</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let user of userList.list;index as i">
-                <td>{{user.userName}}</td>
-                <td>{{user.email}}</td>
-                <td>{{getRoleName(user.roleId)}}</td>
-                <td>{{user.createdOn | date: 'longDate'}}</td>
-                <td class="d-flex justify-content-end my-1"><button mat-stroked-button color="primary" class="mx-2" [routerLink]="['add-edit']" [queryParams]="{ id: user.id}">Edit</button>
-                    <button mat-stroked-button color="primary" class="mx-2" (click)="DeleteUser(user.email)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div class="mt-4 row" style="border-top: 1px solid #cdc6c6;">
-    <div class="col-sm-11 p-0">
-        <app-pagination [TotalCount]="userList.totalCount" (page)="handlePageChange($event)"></app-pagination>
+<div class="pt-3 px-4 main-background">
+    <div class="container my-1 pt-4 px-5 table-borders table-responsive">
+        <table class="mt-3" style="width:100%;">
+            <thead>
+                <tr class="table-border-bottom">
+                    <th class="pb-2">No.</th>
+                    <th class="pb-2">Name</th>
+                    <th class="pb-2">Email</th>
+                    <th class="pb-2">Role</th>
+                    <th class="pb-2 text-center">Score</th>
+                    <th class="pb-2 text-center">CreatedOn</th>
+                    <th class="pb-2 text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of userList.list;index as i" class="table-border-bottom">
+                    <td>{{ currentPage * pageSize + (i + 1) }}</td>
+                    <td>{{user.userName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{getRoleName(user.roleId)}}</td>
+                    <td class="text-center">
+                        <span *ngIf="user.roleId == 1">---</span>
+                        <span *ngIf="user.roleId != 1">{{user.userScore}}/10</span>
+                    </td>
+                    <td class="text-center">{{user.createdOn | date: 'longDate'}}</td>
+                    <td class="d-flex justify-content-end my-1">
+                        <!-- <button mat-stroked-button color="primary" class="mx-2"
+                            [routerLink]="['add-edit']" [queryParams]="{ id: user.id}">Edit</button> -->
+                        <button mat-stroked-button color="warn" class="mx-2"
+                            (click)="DeleteModelOpen(user.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pt-3 pb-2">
+            <app-pagination [TotalCount]="userList.totalCount" (page)="handlePageChange($event)"></app-pagination>
+        </div>
     </div>
-    <div class="col-sm-1 p-0" style="background-color: ghostwhite;"></div>
 </div>

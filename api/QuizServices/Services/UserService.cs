@@ -21,10 +21,12 @@ namespace QuizServices.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IWebHostEnvironment _hostingEnvironment;
+        private readonly IQuestionRepository _questionRepository;
         public UserService(IWebHostEnvironment hostingEnvironment)
         {
             _userRepository = new UserRepository();
             _hostingEnvironment = hostingEnvironment;
+            _questionRepository = new QuestionRepository();
         }
 
         public UserModel Login(string email, string password)
@@ -36,14 +38,13 @@ namespace QuizServices.Services
                 user.Email = dbUser.Email;
                 user.Id = dbUser.Id;
                 user.UserName = dbUser.UserName;
-                user.Password = dbUser.Password;
+                user.Password = "";
                 user.CreatedOn = dbUser.CreatedOn;
                 user.Gender = dbUser.Gender;
                 user.IsDeleted = dbUser.IsDeleted;
                 user.Languageid = dbUser.Languageid;
                 user.RoleId = dbUser.RoleId;
                 user.userImgPath =dbUser.ImagePath;
-                
             }
             return user;
         }
@@ -114,24 +115,25 @@ namespace QuizServices.Services
                     UserName = user.UserName,
                     Email = user.Email,
                     CreatedOn = user.CreatedOn,
-                    RoleId = user.RoleId
+                    RoleId = user.RoleId,
+                    UserScore = _questionRepository.GetUserScoreCount(user.Id)
 
                 }).ToList()
             };
             return model;
         }
 
-        public void DeleteUser(string email)
+        public void DeleteUser(int id)
         {
-            if (email != "")
+            if (id != 0)
             {
-                var user = _userRepository.GetUser(email);
+                var user = _userRepository.GetUserById(id);
                 user.IsDeleted = true;
                 _userRepository.AddEditUser(user);
             }
             else
             {
-                throw new Exception("user does not exist");
+                throw new Exception("try again");
             }
         }
 

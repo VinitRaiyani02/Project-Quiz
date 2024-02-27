@@ -1,2 +1,8 @@
+<!-- <mat-drawer-container class="example-container" autosize> -->
 <app-header></app-header>
-<router-outlet></router-outlet>
+<div>
+    <router-outlet></router-outlet>
+    <div class="spinner" *ngIf="displaySpinner"></div>
+</div>
+<!-- <router-outlet></router-outlet> -->
+<!-- </mat-drawer-container> -->

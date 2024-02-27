@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-radiowithinput',
@@ -8,32 +8,22 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class RadiowithinputComponent {
 
-  @Input() questionType: string = "";
-  @Input() options!: FormGroup[];;
+  @Input() index: number = 0;
+  @Input() options!: FormGroup[];
   @Output() optionChange = new EventEmitter<number>();
+  control: FormControl = new FormControl('');
 
-  optionFormArray!: FormArray;
-
-  constructor(private formBuilder: FormBuilder) { 
-    this.optionFormArray = formBuilder.array([]);
+  getOptionControl(index: number): FormControl {
+    return this.options[index].get('option') as FormControl;
   }
+  // getIsAnsControl(index: number): FormControl {
+  //   return this.options[index].get('isAns') as FormControl;
+  // }
+  // getFormgroup(index:number): FormGroup {
+  //   return this.options[index] as FormGroup;
+  // }
 
-  ngOnInit(): void {
-    this.optionFormArray = this.formBuilder.array(
-      this.options.map(optionGroup => this.formBuilder.group({
-        option: [optionGroup.get('option')?.value, Validators.required],
-        isAnswer: false
-      }))
-    );
-  }
-
-  onRadioChange(index: number): void {
-    this.optionFormArray.controls.forEach((control, i) => {
-      if (i !== index) {
-        control.get('isAnswer')?.setValue(false);
-      }
-    });
-    this.optionFormArray.controls[index].get('isAnswer')?.setValue(true);
-    this.optionChange.emit(index);
-  }
+  // onRadioChange(index: number): void {
+  //   this.optionChange.emit(index);
+  // }
 }

@@ -9,6 +9,8 @@ import { AddEditQuestionComponent } from 'src/app/components/add-edit-question/a
 import { PaginationComponent } from 'src/app/shared/components/pagination/pagination.component';
 import { RadiowithinputComponent } from 'src/app/shared/components/forms/radiowithinput/radiowithinput.component';
 import { ShowUserListComponent } from 'src/app/components/show-user-list/show-user-list.component';
+import { RolesListComponent } from 'src/app/components/roles-list/roles-list.component';
+import { AddEditRoleComponent } from 'src/app/components/add-edit-role/add-edit-role.component';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { ShowUserListComponent } from 'src/app/components/show-user-list/show-us
     AddEditQuestionComponent,
     PaginationComponent,
     RadiowithinputComponent,
-    ShowUserListComponent
+    ShowUserListComponent,
+    RolesListComponent,
+    AddEditRoleComponent
   ],
   imports: [
     CommonModule,

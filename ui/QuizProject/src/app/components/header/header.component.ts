@@ -20,7 +20,7 @@ export class HeaderComponent {
     });
    
   }
-  
+  showFiller = false;
   userid: number = 0;
 
   Logout(){

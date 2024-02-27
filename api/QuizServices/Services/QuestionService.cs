@@ -66,7 +66,6 @@ namespace QuizServices.Services
                 }
                 _questionRepository.AddEditOptions(options);
             }
-
             return question;
         }
 

@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ISelectOptions, InputFieldProps, genderSelectOptions } from 'src/app/models/forms/InputFieldsProps';
+import { SnackbarConfig } from 'src/app/models/snackbar-config';
+import { SnackbarMessageModel, success } from 'src/app/models/snackbarmsg.model';
 import { UserModel } from 'src/app/models/user.model';
 import { BaseService } from 'src/app/services/base.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { LanguageService } from 'src/app/services/language.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { StrongPasswordRegx } from 'src/app/shared/constants/RegExp.const';
 import { apiPathForImage } from 'src/app/shared/constants/apipath.const';
 import { Genders } from 'src/app/shared/enums/gender.enum';
 import { UserRole } from 'src/app/shared/enums/userrole.enum';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-edit-user',
@@ -20,8 +23,9 @@ import { UserRole } from 'src/app/shared/enums/userrole.enum';
 export class AddEditUserComponent implements OnInit {
 
   constructor(private languageService: LanguageService, private baseService: BaseService<FormData, UserModel>,
-    private router: Router, private _snackbar: MatSnackBar, private route: ActivatedRoute, private helperService: HelperService) {
-
+    private router: Router, private route: ActivatedRoute, private helperService: HelperService,
+    private snackbarService: SnackbarService,private location: Location) {
+      
   }
   inputImageProps: InputFieldProps = {
     ControlName: 'userImage',
@@ -36,7 +40,7 @@ export class AddEditUserComponent implements OnInit {
     Type: 'text',
     Label: 'Name',
     IsDisabled: false,
-    PlaceHolder: 'UserName'
+    PlaceHolder: 'Name'
   }
   inputEmailProps: InputFieldProps = {
     ControlName: 'email',
@@ -95,6 +99,11 @@ export class AddEditUserComponent implements OnInit {
   id: number = 0;
   imagePath: string = "";
   role: string = '';
+  success:SnackbarMessageModel = success;
+  snackbarConfig: SnackbarConfig = {
+    message: '',
+    duration: 2000
+  }
 
   ngOnInit(): void {
     this.languageService.GetLanguageList().subscribe({
@@ -201,11 +210,9 @@ export class AddEditUserComponent implements OnInit {
               this.router.navigate(['user']);
             }
           }
-          this._snackbar.open(res.message, "ok", {
-            duration: 1500,
-            verticalPosition: "top",
-            horizontalPosition: "right"
-          })
+          this.snackbarConfig.message = res.message;
+          this.snackbarConfig.status = res.success ? 'success' : 'error';
+          this.snackbarService.show(this.snackbarConfig);
         },
         error: (error) => {
           console.log(error);
@@ -213,5 +220,8 @@ export class AddEditUserComponent implements OnInit {
       })
 
     }
+  }
+  Cancle(){
+    this.location.back();  
   }
 }

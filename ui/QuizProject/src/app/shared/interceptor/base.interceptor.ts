@@ -29,7 +29,7 @@ export class BaseInterceptor implements HttpInterceptor {
         next: (event) => {
           if (this.tokenService.isTokenExpired()) {
             this._snackbar.open("please login again", "ok", {
-              duration: 1500,
+              duration: 2000,
               verticalPosition: "top",
               horizontalPosition: "right"
             })
@@ -46,7 +46,7 @@ export class BaseInterceptor implements HttpInterceptor {
         error: (error) => {
           if (this.tokenService.isTokenExpired()) {
             this._snackbar.open("please login again", "ok", {
-              duration: 1500,
+              duration: 2000,
               verticalPosition: "top",
               horizontalPosition: "right"
             })

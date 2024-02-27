@@ -27,9 +27,9 @@ namespace QuizApi.Controllers.User
 
         [HttpDelete]
         [Authorize(Roles = "1")]
-        public ApiResponse<QuestionsModel> DeleteUser(string email)
+        public ApiResponse<QuestionsModel> DeleteUser(int id)
         {
-            _userService.DeleteUser(email);
+            _userService.DeleteUser(id);
             return new ApiResponse<QuestionsModel>(200, true, "user deleted successfully");
         }
     }

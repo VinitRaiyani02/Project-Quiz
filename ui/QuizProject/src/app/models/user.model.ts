@@ -11,5 +11,6 @@ export interface UserModel {
     createdOn?: Date;
     isDeleted: boolean;
     userImgPath?: string;
+    userScore?: number;
     userImage?: File;
 }

@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { timeout } from 'rxjs';
 import { InputFieldProps, questionTypeSelectOptions } from 'src/app/models/forms/InputFieldsProps';
 import { QuestionsModel } from 'src/app/models/questions.model';
+import { SnackbarConfig } from 'src/app/models/snackbar-config';
 import { BaseService } from 'src/app/services/base.service';
+import { HelperService } from 'src/app/services/helper.service';
 import { QuestionService } from 'src/app/services/question.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-add-edit-question',
@@ -14,8 +17,9 @@ import { QuestionService } from 'src/app/services/question.service';
 })
 export class AddEditQuestionComponent implements OnInit {
 
-  constructor(private fb: FormBuilder,private service: QuestionService,private _snackbar: MatSnackBar,private router: Router,
-    private route: ActivatedRoute,private baseService: BaseService<QuestionsModel,QuestionsModel>) {}
+  constructor(private fb: FormBuilder,private service: QuestionService,private router: Router,
+    private route: ActivatedRoute,private baseService: BaseService<QuestionsModel,QuestionsModel>,private helperService: HelperService,
+    private snackbarService: SnackbarService) {}
   questionForm: FormGroup = new FormGroup('');
 
   inputQuestionTextProps: InputFieldProps = {
@@ -42,12 +46,17 @@ export class AddEditQuestionComponent implements OnInit {
   }
   id:number = 0;
   notAnswered: boolean = false;
+  snackbarConfig: SnackbarConfig = {
+    message: '',
+    duration: 2000
+  }
+  submitted: boolean = false;
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.id = params['id'];
     });
-
+    this.helperService.GetValues();
     this.questionForm = this.fb.group({
       questiontext: ['', Validators.required],
       questionType: ['Text'],
@@ -77,6 +86,14 @@ export class AddEditQuestionComponent implements OnInit {
     
     (this.questionForm.get('questionType') as FormControl).valueChanges.subscribe(value => {
       this.adjustOptionAns(value);
+      if (this.submitted) {
+        setTimeout(() => {
+          const fields = document.querySelectorAll('.form-submitted');
+          fields.forEach(f => {
+            f.classList.remove('form-submitted');
+          })
+        }, 1);
+      }
     });
 
     this.questionForm.valueChanges.subscribe({
@@ -137,16 +154,11 @@ export class AddEditQuestionComponent implements OnInit {
       if(!answered){
         this.notAnswered = true;
       }
+      else{
+        this.notAnswered = false;
+      }
     }
     return this.notAnswered;
-  }
-  questionAnsValidator() {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      if (this.questionForm && this.questionForm.value.questionType === 'Text' && !control.value) {
-        return { 'required': true };
-      }
-      return null;
-    };
   }
 
   SaveData() {
@@ -154,6 +166,7 @@ export class AddEditQuestionComponent implements OnInit {
     fields.forEach(f => {
       f.classList.remove('form-submitted');
     })
+    this.submitted = true;
     if(this.questionForm.valid && !this.isQuestionAnswered()){
       this.service.SaveData(this.questionModel).subscribe({
         next: (res) => {
@@ -164,11 +177,9 @@ export class AddEditQuestionComponent implements OnInit {
             })
               this.router.navigate(['admin']);
           }
-          this._snackbar.open(res.message, "ok", {
-            duration: 1500,
-            verticalPosition: "top",
-            horizontalPosition: "right"
-          })
+          this.snackbarConfig.message = res.message;
+          this.snackbarConfig.status = res.success ? 'success' : 'error';
+          this.snackbarService.show(this.snackbarConfig);
         },
         error: (error) => {
             console.log(error);

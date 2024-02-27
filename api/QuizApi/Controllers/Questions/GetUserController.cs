@@ -22,7 +22,7 @@ namespace QuizApi.Controllers.Questions
         public ApiResponse<UserModel> GetUserById(int id)
         {
             var data = _userService.GetUserById(id);
-            return new ApiResponse<UserModel>(200, true, "data loaded successfull", data);
+            return new ApiResponse<UserModel>(200, true, "data loaded successfully", data);
         }
     }
 }

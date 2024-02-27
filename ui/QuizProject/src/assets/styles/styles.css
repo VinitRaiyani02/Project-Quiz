@@ -1,14 +1,149 @@
-.form-submitted{
-    display: none;
+.form-submitted {
+  display: none;
 }
+
 .ng-submitted input.ng-invalid {
-    border: red 1px solid;
-  }
+  border: red 1px solid;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+  background-color: #fafafa;
+}
 
-.second-header{
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+  top: 13px;
+}
+.spinner {
+  border: 16px solid silver;
+  border-top: 16px solid #222;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation: spin 700ms linear infinite;
+  top:50%;
+  left:50%;
+  position: absolute;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg) }
+  100% { transform: rotate(-360deg) }
+}
+
+.second-header {
   background-color: ghostwhite;
   border-bottom: 1px solid #cdc6c6;
+}
+
+.second-header button {
+  border-radius: 25px;
+}
+
+.table-borders {
+  border: 1px solid #fffafa;
+  box-shadow: 1px 0px 20px 0px rgb(138 138 138 / 55%);
+  border-radius: 12px;
+  background-color: aliceblue;
+}
+
+.table-border-bottom {
+  border-bottom: 1px solid #e9e9e9;
+}
+
+.main-background {
+  background-color: #fafafa;
+}
+
+.user-name {
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.header-ul {
+  display: flex;
+  align-items: center;
+}
+
+.header-ul li button {
+  margin-left: 20px;
+}
+
+.Active {
+  color: silver;
+}
+
+body .bg-success .mdc-snackbar__surface,
+.answered {
+  background-color: green;
+}
+
+body .bg-danger .mdc-snackbar__surface,
+.not-answered {
+  background-color: red;
+}
+
+.questionNumbers div {
+  border-radius: 100%;
+  border: 1px solid black;
+  color: white;
+  height: 30px;
+  width: 30px;
+}
+
+.active-number {
+  background-color: #3f51b5;
+}
+
+.login-screen {
+  height: 100%;
+}
+
+@media only screen and (max-width: 991px) {
+  .header-ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 0px;
+  }
+
+  .header-ul li {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .header-ul li button {
+    margin-left: 0px;
+    width: 100%;
+    border: none;
+    justify-content: start;
+  }
+
+  .Active {
+    color: black;
+    background-color: aliceblue;
+  }
+
+  .login-screen {
+    height: 68%;
+  }
 }

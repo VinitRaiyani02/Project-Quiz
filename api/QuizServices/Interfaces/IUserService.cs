@@ -14,7 +14,7 @@ namespace QuizServices.IServices
         UserModel Register(UserModel user,string role);
 
         UsersListModel GetList(int currentPage,int pageSize);
-        void DeleteUser(string email);
+        void DeleteUser(int id);
         UserModel GetUserById(int id);
     }
 }

@@ -21,6 +21,7 @@ namespace Entities.Models
         public DateTime? CreatedOn { get; set; }
         public bool IsDeleted { get; set; }
         public string? userImgPath { get; set; }
+        public int? UserScore { get; set;}
         public IFormFile? userImage { get; set; }
     }
 }

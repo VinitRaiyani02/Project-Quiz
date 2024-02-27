@@ -7,7 +7,7 @@ import { DemoDirective } from './directives/demo.directive';
 import { RouterModule } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { BaseModule } from './modules/common/common.module';
-import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BaseInterceptor } from './shared/interceptor/base.interceptor';
 import { NotfoundComponent } from './components/notfound/notfound.component';
@@ -40,8 +40,12 @@ import { HeaderComponent } from './components/header/header.component';
 
   ],
   providers: [{
-    provide: HTTP_INTERCEPTORS, useClass: BaseInterceptor, multi:true
-  }],
+    provide: HTTP_INTERCEPTORS, useClass: BaseInterceptor, multi: true
+  },
+  { 
+    provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 1500 } 
+  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
