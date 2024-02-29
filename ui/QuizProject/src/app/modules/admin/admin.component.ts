@@ -15,17 +15,14 @@ export class AdminComponent {
 
   ngOnInit(): void {
     this.router.events.subscribe((event: Event) => {
-      if(event instanceof NavigationStart){
+      if (event instanceof NavigationStart) {
         this.displaySpinner = true;
       }
-      // setTimeout(() => {
-      //   if(event instanceof NavigationEnd ||
-      //     event instanceof NavigationCancel ||
-      //     event instanceof NavigationError){
-      //      this.displaySpinner = false;
-      //  }
-      // },2000)
-      
+      if (event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError) {
+        this.displaySpinner = false;
+      }
     });
   }
 }
