@@ -1,0 +1,8 @@
+<mat-paginator 
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    [length]="TotalCount" 
+    [pageSize]="10" 
+    aria-label="Select page" 
+    (page)="handlePageChange($event)"
+    style="background-color: aliceblue;">
+</mat-paginator>

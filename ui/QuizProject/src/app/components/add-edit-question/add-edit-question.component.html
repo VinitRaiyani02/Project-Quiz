@@ -1,0 +1,90 @@
+<section>
+    <div class="second-header py-3 px-4 d-flex">
+        <div class="row w-100">
+            <div class="col-sm-3">
+                <h3 *ngIf="id == 0">Add New Question</h3>
+                <h3 *ngIf="id != 0">Edit Question</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container p-3">
+        <div class="mt-2">
+            <div *ngIf="notAnswered" class="mt-3">
+                <span class="text-danger">Please, select an answer for this question</span>
+            </div>
+            <form [formGroup]="questionForm" (ngSubmit)="SaveData()">
+                <div class="row">
+                    <div class="col-sm-6 mt-2">
+                        <app-select-field [props]="inputQuestionType" [parentForm]="questionForm"></app-select-field>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <app-input-field [props]="inputQuestionTextProps" [parentForm]="questionForm"></app-input-field>
+                    </div>
+                    <div class="col-12 mt-2" *ngIf="questionForm.value.questionType == 'Text'"
+                        formArrayName="optionAns">
+                        <label class="form-label">Question Ans</label>
+                        <ng-container *ngFor="let option of options; index as i;">
+                            <div [formGroupName]="i">
+                                <app-radiowithinput [options]="options" [index]="i"></app-radiowithinput>
+                            </div>
+                            <ul class="text-danger error-ul form-submitted">
+                                <li
+                                    *ngIf="questionForm.get('optionAns')?.get(i.toString())?.get('option')?.errors?.['required']">
+                                    This field is required
+                                </li>
+                            </ul>
+                        </ng-container>
+                    </div>
+
+                    <div class="col-12 mt-2" *ngIf="questionForm.value.questionType == 'Single'">
+                        <div formArrayName="optionAns">
+                            <label class="form-label">Question Ans</label>
+                            <ng-container *ngFor="let option of options; index as i;">
+                                <div [formGroupName]="i" class="d-flex">
+                                    <!-- <input type="text" class="form-control mt-2 form-control-lg input-valid-border"
+                                        formControlName="option" placeholder="Option {{ i + 1 }}"> -->
+                                    <app-radiowithinput [options]="options" [index]="i"></app-radiowithinput>
+                                    <mat-radio-button [value]="i" [checked]="getOptionControl(i).value"
+                                        (click)="onRadioChange(i)" class="mt-2">Is
+                                        Answer</mat-radio-button>
+                                </div>
+                                <ul class="text-danger error-ul form-submitted">
+                                    <li
+                                        *ngIf="questionForm.get('optionAns')?.get(i.toString())?.get('option')?.errors?.['required']">
+                                        This field is required
+                                    </li>
+                                </ul>
+                            </ng-container>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-2" *ngIf="questionForm.value.questionType == 'Multiple'"
+                        formArrayName="optionAns">
+                        <label class="form-label">Question Ans</label>
+                        <ng-container *ngFor="let option of options; index as i;">
+                            <div [formGroupName]="i" class="d-flex">
+                                <app-radiowithinput [options]="options" [index]="i"></app-radiowithinput>
+                                <mat-checkbox formControlName="isAns" [checked]="getOptionControl(i).value" class="mt-2">Is
+                                    Answer</mat-checkbox>
+                            </div>
+                            <ul class="text-danger error-ul form-submitted">
+                                <li
+                                    *ngIf="questionForm.get('optionAns')?.get(i.toString())?.get('option')?.errors?.['required']">
+                                    This field is required
+                                </li>
+                            </ul>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="mt-4 d-flex justify-content-end">
+                    <button mat-stroked-button color="primary" class="px-5 me-2" type="button" [routerLink]="['/admin']">
+                        Cancel
+                    </button>
+                    <button mat-raised-button color="primary" class="px-5" type="submit">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

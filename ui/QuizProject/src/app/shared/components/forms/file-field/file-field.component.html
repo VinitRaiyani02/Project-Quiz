@@ -1,0 +1,5 @@
+<div>
+    <label class="form-label">upload Image here</label>
+    <input type="file" class="form-control form-control-lg" [formControl]="control" accept="{{props.accept}}"
+        (change)="onFileSelected($event)">
+</div>

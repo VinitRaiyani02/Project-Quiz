@@ -1,0 +1,15 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+  .header{
+    color: white;
+    background-color: black;
+  }
+  ul {
+    list-style-type: none;
+  }
+  img{
+    width: 34px;
+    height: 34px;
+    border-radius: 100%;
+  }

@@ -1,0 +1,24 @@
+<div class="second-header py-3 px-4 d-flex">
+    <div class="row w-100">
+        <div class="col-sm-3">
+            <h3 *ngIf="id == 0">Add New Role</h3>
+            <h3 *ngIf="id != 0">Edit Role</h3>
+        </div>
+    </div>
+</div>
+
+<div class="mx-4">
+    <form [formGroup]="roleForm" (ngSubmit)="SaveData()">
+            <div class="mt-4">
+                <app-input-field [props]="inputRoleNameField" [parentForm]="roleForm"></app-input-field>
+            </div>
+        <div class="my-4 d-flex justify-content-end">
+            <button mat-stroked-button color="primary" type="button" class="px-5 mx-2" (click)="cancleClick()">
+                Cancle
+            </button>
+            <button mat-raised-button color="primary" type="submit" class="px-5">
+                Save
+            </button>
+        </div>
+    </form>
+</div>
