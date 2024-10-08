@@ -15,6 +15,7 @@ import { HomeModule } from './modules/home/home.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { UserModule } from './modules/user/user.module';
 import { HeaderComponent } from './components/header/header.component';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 
 
@@ -36,15 +37,31 @@ import { HeaderComponent } from './components/header/header.component';
     BrowserAnimationsModule,
     HomeModule,
     AdminModule,
-    UserModule
+    UserModule,
+    SocialLoginModule
 
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS, useClass: BaseInterceptor, multi: true
+  providers: [
+  {
+    provide: 'SocialAuthServiceConfig',
+    useValue: {
+      autoLogin: false,
+      providers: [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider(
+            "11835537092-jgohs6ve0fe6o42jni4ucl4209ca0hgr.apps.googleusercontent.com"
+          ),
+        },
+      ],
+      onError: (err) => {
+        console.error(err);
+      }
+    } as SocialAuthServiceConfig,
   },
   { 
     provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 1500 } 
-  }
+  },
   ],
   bootstrap: [AppComponent]
 })

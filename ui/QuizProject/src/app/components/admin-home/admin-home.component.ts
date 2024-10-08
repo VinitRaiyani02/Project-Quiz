@@ -1,6 +1,7 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, Pipe } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { catchError } from 'rxjs';
 import { DeleteModel } from 'src/app/models/delete.model';
 import { QuestionListModel } from 'src/app/models/question-list.model';
 import { QuestionsModel } from 'src/app/models/questions.model';
@@ -37,6 +38,7 @@ export class AdminHomeComponent implements OnInit {
     .set("pageSize",this.pageSize);
     this.baseService.GetList("/Questions",params).subscribe({
       next: (res) => {
+     
         if(res.data != undefined){
           this.questionlist = res.data;
         }

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { timeout } from 'rxjs';
+import { catchError, timeout } from 'rxjs';
 import { InputFieldProps, questionTypeSelectOptions } from 'src/app/models/forms/InputFieldsProps';
 import { QuestionsModel } from 'src/app/models/questions.model';
 import { SnackbarConfig } from 'src/app/models/snackbar-config';
@@ -80,7 +80,7 @@ export class AddEditQuestionComponent implements OnInit {
         },
         error: (error) => {
           console.log(error);
-        }
+        },
       })
     }
     

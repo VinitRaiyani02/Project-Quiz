@@ -8,12 +8,11 @@ using QuizRepository.DataModels;
 
 namespace QuizRepository.IRepository
 {
-    public interface IUserRepository
+    public interface IUserRepository: IGenericRepository<TblUser>
     {
         TblUser GetUser(string email);
-        TblUser GetUserById(int id);
         void SaveUser(TblUser user);
-        List<TblUser> GetList();
+        List<TblUser> GetUserList();
         void AddEditUser(TblUser user);
         void IsEmailAlreadyExist(string email);
     }

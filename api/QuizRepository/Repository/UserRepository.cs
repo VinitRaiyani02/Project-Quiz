@@ -4,7 +4,7 @@ using QuizRepository.IRepository;
 
 namespace QuizRepository.Repository
 {
-    public class UserRepository: IUserRepository
+    public class UserRepository: GenericRepository<TblUser> ,IUserRepository
     {
         private readonly QuestionsDatabaseContext _context;
 
@@ -22,15 +22,7 @@ namespace QuizRepository.Repository
             }
             throw new Exception("user doesn't exist");
         }
-        public TblUser GetUserById(int id)
-        {
-            var dbUser = _context.TblUsers.FirstOrDefault(x => x.Id == id && x.IsDeleted == false);
-            if (dbUser != null)
-            {
-                return dbUser;
-            }
-            throw new Exception("user doesn't exist");
-        }
+        
         public void IsEmailAlreadyExist(string email){
             var user = _context.TblUsers.FirstOrDefault(x => x.Email == email && x.IsDeleted == false);
             if(user != null){
@@ -52,7 +44,7 @@ namespace QuizRepository.Repository
             _context.SaveChanges();
         }
 
-        public List<TblUser> GetList()
+        public List<TblUser> GetUserList()
         {
             var userList = _context.TblUsers.Where(u => u.IsDeleted == false).ToList();
             return userList;

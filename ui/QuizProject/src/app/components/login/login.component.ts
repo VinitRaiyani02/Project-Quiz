@@ -1,7 +1,9 @@
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { InputFieldProps } from 'src/app/models/forms/InputFieldsProps';
 import { SnackbarConfig } from 'src/app/models/snackbar-config';
 import { HelperService } from 'src/app/services/helper.service';
@@ -17,10 +19,15 @@ import { TokenService } from 'src/app/shared/services/token.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  private authChangeSub = new Subject<boolean>();
+  private extAuthChangeSub = new Subject<SocialUser>();
+  public authChanged = this.authChangeSub.asObservable();
+  public extAuthChanged = this.extAuthChangeSub.asObservable();
   constructor(private router: Router,private service: UserService,private tokenService: TokenService,
     private helperService: HelperService,private snackbarService: SnackbarService){
-    
+  
   }
+  user: SocialUser | null = new SocialUser; 
   loginForm: FormGroup = new FormGroup('');
   inputEmailProps: InputFieldProps = {
     ControlName: 'email',
@@ -49,6 +56,7 @@ export class LoginComponent implements OnInit {
     sessionStorage.clear();
   }
 
+  
   onSubmit() {
     const fields = document.querySelectorAll('.form-submitted');
     fields.forEach(f => {

@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using AutoMapper;
 using Entities.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,34 +19,27 @@ using QuizServices.IServices;
 
 namespace QuizServices.Services
 {
-    public class UserService: IUserService
+    public class UserService: BaseService<UsersListModel,TblUser> ,IUserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IQuestionRepository _questionRepository;
-        public UserService(IWebHostEnvironment hostingEnvironment)
+        private readonly IGenericRepository<TblUser> _genericRepository;
+        public UserService(IWebHostEnvironment hostingEnvironment,IMapper mapper): base(mapper)
         {
             _userRepository = new UserRepository();
             _hostingEnvironment = hostingEnvironment;
             _questionRepository = new QuestionRepository();
+            _genericRepository = new GenericRepository<TblUser>();
         }
 
         public UserModel Login(string email, string password)
         {
             UserModel user = new UserModel();
-            var dbUser = _userRepository.GetUser(email);
+            var dbUser = _genericRepository.GetById(x => x.Email == email && x.IsDeleted == false,"user");
             if (dbUser.Id != 0 && PasswordHelper.IsValid(password, dbUser.Password))
             {
-                user.Email = dbUser.Email;
-                user.Id = dbUser.Id;
-                user.UserName = dbUser.UserName;
-                user.Password = "";
-                user.CreatedOn = dbUser.CreatedOn;
-                user.Gender = dbUser.Gender;
-                user.IsDeleted = dbUser.IsDeleted;
-                user.Languageid = dbUser.Languageid;
-                user.RoleId = dbUser.RoleId;
-                user.userImgPath =dbUser.ImagePath;
+                user = _mapper.Map<UserModel>(dbUser);
             }
             return user;
         }
@@ -87,7 +82,7 @@ namespace QuizServices.Services
             }
             else
             {
-                var dbUser = _userRepository.GetUserById(user.Id);
+                var dbUser = _genericRepository.GetById(x => x.Id == user.Id && x.IsDeleted == false,"user");
                 if (user.userImage != null)
                 {
                     dbUser.ImagePath = imagePath;
@@ -103,9 +98,9 @@ namespace QuizServices.Services
             return user;
         }
 
-        public UsersListModel GetList(int currentPage, int pageSize)
+        public override UsersListModel GetList(int currentPage, int pageSize,UsersListModel model1)
         {
-            var data = _userRepository.GetList();
+            var data = _userRepository.GetUserList();
             UsersListModel model = new UsersListModel
             {
                 TotalCount = data.Count,
@@ -127,7 +122,7 @@ namespace QuizServices.Services
         {
             if (id != 0)
             {
-                var user = _userRepository.GetUserById(id);
+                var user = _genericRepository.GetById(x => x.Id == id && x.IsDeleted == false,"user");
                 user.IsDeleted = true;
                 _userRepository.AddEditUser(user);
             }
@@ -139,7 +134,7 @@ namespace QuizServices.Services
 
         public UserModel GetUserById(int id)
         {
-            var user = _userRepository.GetUserById(id);
+            var user = _genericRepository.GetById(x => x.Id == id && x.IsDeleted == false,"user");
             UserModel model = new UserModel
             {
                 Id = user.Id,
